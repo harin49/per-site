@@ -2,5 +2,8 @@
 
 node_modules
 
+// vscode settings
+.vscode
+
 // next built files
 .next
