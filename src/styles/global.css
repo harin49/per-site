@@ -1,0 +1,26 @@
+@import 'normalize.css';
+
+
+*{
+    margin: 0;
+    box-sizing: border-box;
+  }
+
+
+  .light-mode{
+    --body-bg-color: #ffffff;
+    --text-color: #000001;
+  }
+
+
+  .dark-mode{
+    --body-bg-color: #000000;
+    --text-color: #F1FA8B
+  }
+
+  body {
+    background-color: var(--body-bg-color);
+    color: var(--text-color);
+    transition: all 0.5s;
+    transition-property: background-color color;
+  }
