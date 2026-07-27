@@ -15,7 +15,7 @@ The site should feel handcrafted, not templated — personality comes through in
 | Framework | Next.js 14 (App Router) |
 | Language | TypeScript 5 (strict mode) |
 | Styling | Plain CSS with CSS custom properties (no CSS-in-JS) |
-| Content | MDX via Contentlayer (planned) |
+| Content | MDX via `next-mdx-remote` (Server Components, no separate build pipeline) |
 | Linting | ESLint 8 + `@typescript-eslint` + `next/core-web-vitals` |
 | Formatting | Prettier 3 |
 | CSS Reset | normalize.css |
@@ -47,15 +47,23 @@ The site should feel handcrafted, not templated — personality comes through in
 - No CSS-in-JS libraries. No Tailwind. Plain CSS only.
 
 ### Content (MDX)
-- All written content (posts, project writeups) goes through MDX via Contentlayer.
-- Keep frontmatter fields consistent across content types — define a schema and don't deviate.
+- All written content (posts, project writeups) lives as `.mdx` files in `content/writing/`, compiled at request/build time with `compileMDX` from `next-mdx-remote/rsc` — no Contentlayer, no separate build step.
+- Frontmatter is deliberately minimal: `title` and `date` only. Keep this consistent across all posts — don't add fields ad hoc.
+- The filename (minus `.mdx`) is the post's slug, used as-is in the URL (`/writing/<slug>`) — no date prefix.
+- `src/lib/posts.ts` is the single source of truth for reading posts (`getAllPosts`, `getPostBySlug`, `getAllSlugs`). Don't read from `content/writing/` directly elsewhere.
+- `src/app/writing/[slug]/page.tsx` renders posts and is fully statically generated via `generateStaticParams` — no client JS for content.
+- The home page's Writing section lists all posts (via `getAllPosts()`) and links out to their `/writing/[slug]` pages; there is no separate `/writing` index page.
+- Post-specific images live under `public/images/writing/<slug>/`, referenced from the MDX as `/images/writing/<slug>/<file>`. Images shared across the site (e.g. bio photos) stay flat in `public/images/`.
+- `gray-matter` parses frontmatter; because of `noPropertyAccessFromIndexSignature`, access frontmatter fields via bracket notation (`data['title']`), not dot notation.
 
 ### File & Module Conventions
 - `src/app/` — Next.js App Router pages and layouts only.
 - `src/components/` — reusable UI components.
 - `src/providers/` — React context providers.
-- `src/styles/` — global CSS only.
-- Path alias `@/*` maps to `src/*` (configured in tsconfig).
+- `src/lib/` — plain utility modules (e.g. `posts.ts`), no React, safe to use Node APIs like `fs`/`path` since they only run in Server Components/build time.
+- `src/styles/` — CSS files, one per page/feature (not just global) — imported directly by the component/page that needs them.
+- `content/writing/` — MDX post source files, at the repo root (not under `src/`) since it's data, not source code.
+- No `@/*` path alias — imports use the bare `src/...` form (works via `baseUrl: "."` in tsconfig), e.g. `import Nav from 'src/components/Nav'`.
 
 ### Git
 - Commit messages are clear and imperative ("add hero section", not "added hero section" or "wip").
@@ -67,27 +75,27 @@ The site should feel handcrafted, not templated — personality comes through in
 
 Inspired by mayurbhoi.com, the site will have:
 
-- **Home / Bio** — a short, personal introduction with photo.
-- **Projects** — active and completed work, each with a brief write-up.
-- **Writing** — blog posts via MDX, linked from the home page.
-- **Now** — a reflective, living section about current focus and interests.
-- **Connect** — social links and contact.
+- **Home / Bio** — a short, personal introduction with photo. Photo area has 5 slots, one visible at random per load (grayscale, full color on hover), 3 currently wired to real photos and 2 left as placeholders.
+- **Projects** — active and completed work, each with a brief write-up. Currently a stub page ("in-progress").
+- **Writing** — blog posts via MDX, listed on the home page and rendered at `/writing/[slug]`. No separate `/writing` index page.
+- **Now** — a reflective, living section about current focus and interests. Currently a stub page ("in-progress").
+- **Connect** — social links and contact. Placeholder links on the home page for now.
+- **Resume** / **News** — linked from the top nav, currently stub pages ("in-progress").
 
 ---
 
 ## Current Status
 
-The project is in early scaffolding. What exists:
-
 - [x] Next.js 14 App Router setup with TypeScript strict mode
 - [x] ESLint + Prettier configured and integrated
 - [x] Global CSS with CSS custom properties for light/dark theming
-- [x] ThemeProvider context and ThemeSwitcher component (proof-of-concept)
+- [x] ThemeProvider context and ThemeSwitcher component (sun/moon icon toggle)
 - [x] normalize.css reset applied
-- [ ] MDX / Contentlayer integration (tsconfig paths configured, not yet wired up)
-- [ ] Home page content and layout
-- [ ] Navigation
-- [ ] Projects section
-- [ ] Writing / blog section
-- [ ] "Now" section
+- [x] Sticky top nav (Home / Resume / News + theme switcher), active route highlighted
+- [x] Home page layout: Bio (with photo), Writing, Connect sections
+- [x] MDX wired up via `next-mdx-remote` — `content/writing/*.mdx` → `/writing/[slug]`, statically generated
+- [x] 3 real posts migrated from the old Jekyll site (harin49.github.io)
+- [ ] Projects section (stub page only)
+- [ ] "Now" section (stub page only)
+- [ ] Resume / News real content (stub pages only)
 - [ ] Deployment (domain: harinarayanan.dev)

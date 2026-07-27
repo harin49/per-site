@@ -1,0 +1,53 @@
+---
+title: yarn 2.0 and VScode plugins
+date: 2026-07-26
+---
+
+This post lists the steps and configs I had to do to get certain VScode plugins (prettier and eslint) working with yarn 2.0. One may ask why would this be a challenge? If you were using yarn, the folowing steps would sound familiar and easy
+
+- Install vscode
+- Install vscode plugins (eslint and prettier)
+- VScode plugins by default reference project root folder for the required config files.
+- The plugins would load the required plugin module from node_modules and everything works seamlessly!
+
+sounds easy? here's the catch with yarn 2.0!
+
+`It does not have node_modules!`
+
+Here are a few links to understand yarn 2.0, why was node_modules replaced and what has replaced it!
+
+- [why yarn 2.0](https://yarnpkg.com/getting-started/qa#why-should-you-upgrade-to-yarn-modern)
+- [migrating to yarn 2.0](https://yarnpkg.com/getting-started/migration)
+- [node_modules, why it was removed? what replaced it?](https://yarnpkg.com/features/pnp)
+
+Coming back to the problem I was facing! if there were no node_modules how would the VScode plugins load the required modules?
+
+This is where [yarn pnpify package](https://yarnpkg.com/advanced/pnpify) comes into play.
+
+#### Step: 1
+
+Download the yarn pnpify package from the project root folder.
+
+```
+yarn add @yarnpkg/pnpify
+```
+
+This would add the package as a dependency to your package.json.
+
+#### Step:2
+
+Use the above downloaded package to create sdks for the required plugins using the below command
+
+```
+yarn pnpify --sdk base
+```
+
+#### or
+
+```
+yarn pnpify --sdk vscode
+```
+
+more about the above commands [here](https://yarnpkg.com/getting-started/editor-sdks).
+
+One thing I had noticed while trying to make the plugins work again was that the above mentioned solution was only temporary and a "true" soultion can only be implemented by the editors themselves when they solve how to read files within a zip archive.

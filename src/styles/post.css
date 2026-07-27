@@ -1,0 +1,34 @@
+.post__inner {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+
+.post__title {
+  font-size: 1.75rem;
+  font-weight: 400;
+  margin-bottom: 0.5rem;
+}
+
+.post__date {
+  display: block;
+  font-size: 0.875rem;
+  color: var(--muted-color);
+  margin-bottom: 2rem;
+}
+
+.post__body p {
+  margin-bottom: 1.25rem;
+}
+
+.post__body h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 2rem 0 1rem;
+}
+
+.post__body img {
+  max-width: 100%;
+  border-radius: 4px;
+  margin: 1.5rem 0;
+}

@@ -1,0 +1,14 @@
+.stub {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 2rem;
+}
+
+.stub__heading {
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: var(--muted-color);
+  letter-spacing: 0.08em;
+}
