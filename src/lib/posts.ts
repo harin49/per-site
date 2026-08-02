@@ -15,10 +15,13 @@ const readPost = (slug: string): Post => {
   const filePath = path.join(POSTS_DIR, `${slug}.mdx`);
   const raw = fs.readFileSync(filePath, 'utf8');
   const { data, content } = matter(raw);
+  const rawDate = data['date'];
+  const date = rawDate instanceof Date ? rawDate.toISOString().slice(0, 10) : String(rawDate);
+
   return {
     slug,
     title: String(data['title']),
-    date: String(data['date']),
+    date,
     content,
   };
 };

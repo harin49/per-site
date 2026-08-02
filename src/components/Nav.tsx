@@ -8,7 +8,6 @@ import '../styles/nav.css';
 
 const NAV_LINKS = [
   { href: '/', label: 'Home' },
-  { href: '/resume', label: 'Resume' },
   { href: '/news', label: 'News' },
 ];
 
@@ -26,6 +25,11 @@ const Nav = () => {
               </Link>
             </li>
           ))}
+          <li>
+            <a href="/Hari_Narayanan_Resume.pdf" target="_blank" rel="noopener noreferrer" className="nav__link">
+              Resume
+            </a>
+          </li>
         </ul>
         <div className="nav__controls">
           <ThemeSwitcher />

@@ -23,7 +23,7 @@ const BioPhoto = () => {
           onMouseEnter={() => setVisibleSlot(slot)}
         >
           {src ? (
-            <Image src={src} alt="Harinarayanan" width={120} height={120} className="bio__photo" priority />
+            <Image src={src} alt="Harinarayanan" width={190} height={190} className="bio__photo" priority />
           ) : (
             <div className="bio__photo bio__photo--placeholder" aria-hidden="true" />
           )}

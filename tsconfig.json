@@ -42,6 +42,7 @@
       "**/*.tsx",
       ".next/types/**/*.ts",
       ".contentlayer/generated",
+      "declaration.d.ts",
     ],
     "exclude": ["node_modules"]
   }

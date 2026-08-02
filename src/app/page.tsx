@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import BioPhoto from 'src/components/BioPhoto';
+import DnaPipeline from 'src/components/DnaPipeline';
 import { getAllPosts } from 'src/lib/posts';
 import '../styles/home.css';
 
@@ -31,7 +32,7 @@ const Page = () => {
         <section className="section" id="writing">
           <h2 className="section__title">Writing</h2>
           <ul className="writing__list">
-            {posts.map((post) => (
+            {posts.slice(0, 5).map((post) => (
               <li className="writing-item" key={post.slug}>
                 <Link href={`/writing/${post.slug}`} className="writing-item__title">
                   {post.title}
@@ -39,7 +40,16 @@ const Page = () => {
                 <span className="writing-item__date">{formatDate(post.date)}</span>
               </li>
             ))}
+            <li className="writing-item">
+              <Link href="/writing" className="writing-item__title writing-item__title--all">
+                All posts &rarr;
+              </Link>
+            </li>
           </ul>
+        </section>
+
+        <section className="section" id="dna">
+          <DnaPipeline />
         </section>
 
         <section className="section" id="connect">
@@ -48,11 +58,6 @@ const Page = () => {
             <li>
               <a href="#" className="connect__link">
                 GitHub
-              </a>
-            </li>
-            <li>
-              <a href="#" className="connect__link">
-                Twitter / X
               </a>
             </li>
             <li>

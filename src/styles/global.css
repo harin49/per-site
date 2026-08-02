@@ -11,6 +11,18 @@
     --body-bg-color: #fafaf9;
     --text-color: #2b2b2b;
     --muted-color: #767676;
+    --accent-color: #4a6d8c;
+
+    --dna-curiosity-muted: #8a7d6e;
+    --dna-curiosity-active: #b8834a;
+    --dna-learning-muted: #6e8a7d;
+    --dna-learning-active: #4a8c6d;
+    --dna-problem-solving-muted: #7d7e8a;
+    --dna-problem-solving-active: #4a6d8c;
+    --dna-ownership-muted: #8a7d8a;
+    --dna-ownership-active: #7a4a8c;
+    --dna-delivery-muted: #8a6e6e;
+    --dna-delivery-active: #a8462e;
   }
 
 
@@ -18,6 +30,18 @@
     --body-bg-color: #17181a;
     --text-color: #e8e6e1;
     --muted-color: #9a9a9a;
+    --accent-color: #8fb4d4;
+
+    --dna-curiosity-muted: #a6968a;
+    --dna-curiosity-active: #d9a05b;
+    --dna-learning-muted: #96a6a0;
+    --dna-learning-active: #6fcf9c;
+    --dna-problem-solving-muted: #9a9bb0;
+    --dna-problem-solving-active: #8fb4d4;
+    --dna-ownership-muted: #ac9cac;
+    --dna-ownership-active: #c08fdb;
+    --dna-delivery-muted: #ac8a8a;
+    --dna-delivery-active: #e08066;
   }
 
   body {
