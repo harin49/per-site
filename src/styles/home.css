@@ -4,6 +4,12 @@
   padding: 2rem 1.5rem 4rem;
 }
 
+@media (max-width: 480px) {
+  .home__inner {
+    padding: 1.5rem 1rem 3rem;
+  }
+}
+
 .bio {
   margin-bottom: 4rem;
 }
@@ -52,6 +58,27 @@
   font-size: 2rem;
   font-weight: 400;
   margin-bottom: 0.5rem;
+}
+
+@media (max-width: 600px) {
+  .bio__photo-wrap--mobile-hidden {
+    display: none;
+  }
+
+  .bio__photo-wrap--mobile-static {
+    opacity: 1;
+    width: 110px;
+    height: 110px;
+  }
+
+  .bio__photo-wrap--mobile-static:hover {
+    width: 110px;
+    height: 110px;
+  }
+
+  .bio__name {
+    font-size: 1.6rem;
+  }
 }
 
 .bio__tagline {
@@ -111,6 +138,16 @@
   .writing__list {
     grid-template-columns: 1fr;
     grid-auto-flow: row;
+  }
+}
+
+@media (max-width: 480px) {
+  .bio__photo-row {
+    gap: 0.75rem;
+  }
+
+  .section__title {
+    font-size: 1rem;
   }
 }
 
@@ -179,6 +216,28 @@
 .dna__sentence {
   font-size: 0.9rem;
   color: var(--dna-active, var(--muted-color));
+}
+
+@media (max-width: 480px) {
+  .dna__row {
+    padding: 1rem 0;
+  }
+
+  .dna__icon-button svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .dna__sentence {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .dna__icon-button svg {
+    width: 17px;
+    height: 17px;
+  }
 }
 
 .connect__list {

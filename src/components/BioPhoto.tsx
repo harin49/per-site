@@ -19,7 +19,9 @@ const BioPhoto = () => {
       {SLOT_IMAGES.map((src, slot) => (
         <div
           key={slot}
-          className={`bio__photo-wrap${slot === visibleSlot ? ' bio__photo-wrap--visible' : ''}`}
+          className={`bio__photo-wrap${slot === visibleSlot ? ' bio__photo-wrap--visible' : ''}${
+            slot === 0 ? ' bio__photo-wrap--mobile-static' : ' bio__photo-wrap--mobile-hidden'
+          }`}
           onMouseEnter={() => setVisibleSlot(slot)}
         >
           {src ? (

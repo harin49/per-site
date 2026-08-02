@@ -43,3 +43,29 @@
   color: var(--muted-color);
   white-space: nowrap;
 }
+
+@media (max-width: 480px) {
+  .writing-index__inner {
+    padding: 2rem 1rem 3rem;
+  }
+
+  .writing-index-item__link {
+    flex-wrap: wrap;
+    padding: 0.75rem 0.75rem;
+    margin: 0 -0.75rem;
+  }
+
+  .writing-index-item__title {
+    white-space: normal;
+  }
+
+  .writing-index-item__rule {
+    display: none;
+  }
+
+  .writing-index-item__date {
+    width: 100%;
+    order: 3;
+    margin-top: 0.25rem;
+  }
+}
