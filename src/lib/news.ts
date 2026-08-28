@@ -24,6 +24,7 @@ const FEEDS: Feed[] = [
   { name: 'OpenAI News', url: 'https://openai.com/news/rss.xml', category: 'AI' },
   { name: 'Martin Fowler', url: 'https://martinfowler.com/feed.atom', category: 'Software Engineering' },
   { name: 'GitHub Blog', url: 'https://github.blog/feed/', category: 'Software Engineering' },
+  { name: 'ByteByteGo', url: 'https://blog.bytebytego.com/feed', category: 'Software Engineering' },
 ];
 
 const parser = new Parser();
@@ -64,6 +65,26 @@ const sortByDateDesc = (a: NewsItem, b: NewsItem) => {
 };
 
 export const getAllNews = async (): Promise<NewsItem[]> => {
-  const items = (await Promise.all(FEEDS.map(fetchFeed))).flat();
-  return items.sort(sortByDateDesc);
+  const sortedItems = (await Promise.all(FEEDS.map(fetchFeed))).flat().sort(sortByDateDesc);
+
+  const groupedItemsBySource: Record<string, NewsItem[]>= {};
+
+  for(const item of sortedItems) {
+    groupedItemsBySource[item.source]= [...(groupedItemsBySource[item.source] ?? []), item]
+  }
+
+  const roundRobinedItems: NewsItem[]=[];
+
+  const groupedItems = Object.values(groupedItemsBySource)
+
+  const maxLength = Math.max(...groupedItems.map(i => i.length));
+
+  for(let round = 0; round <maxLength; round++){
+    for (const group of groupedItems) {
+      const nextItem = group[round];
+      if (nextItem) roundRobinedItems.push(nextItem);
+}
+  }
+
+  return roundRobinedItems;
 };

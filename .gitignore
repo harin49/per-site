@@ -8,3 +8,5 @@ node_modules
 
 // next built files
 .next
+
+tsconfig.tsbuildinfo

@@ -19,6 +19,36 @@
   margin: 0;
 }
 
+.news-tags {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  margin-top: -1.75rem;
+  margin-bottom: 1.75rem;
+}
+
+.news-tag {
+  font-family: inherit;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted-color);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.news-tag:hover {
+  color: var(--text-color);
+}
+
+.news-tag--active {
+  color: var(--accent-color);
+  text-decoration: underline;
+}
+
 .news-grid {
   column-count: 3;
   column-gap: 2.5rem;
