@@ -8,6 +8,7 @@ export type NewsItem = {
   source: string;
   category: NewsCategory;
   publishedAt: string | null;
+  summary: string | null;
 };
 
 type Feed = {
@@ -27,6 +28,18 @@ const FEEDS: Feed[] = [
 
 const parser = new Parser();
 const ITEMS_PER_FEED = 5;
+const SUMMARY_MAX_LENGTH = 220;
+
+const extractSummary = (item: Parser.Item): string | null => {
+  const raw = item.contentSnippet ?? item.summary ?? item.content ?? null;
+  if (!raw) return null;
+
+  const text = raw.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+  if (!text) return null;
+
+  if (text.length <= SUMMARY_MAX_LENGTH) return text;
+  return `${text.slice(0, SUMMARY_MAX_LENGTH).trimEnd()}…`;
+};
 
 const fetchFeed = async (feed: Feed): Promise<NewsItem[]> => {
   try {
@@ -37,24 +50,20 @@ const fetchFeed = async (feed: Feed): Promise<NewsItem[]> => {
       source: feed.name,
       category: feed.category,
       publishedAt: item.isoDate ?? item.pubDate ?? null,
+      summary: extractSummary(item),
     }));
   } catch {
     return [];
   }
 };
 
-export const getNewsByCategory = async (): Promise<Record<NewsCategory, NewsItem[]>> => {
+const sortByDateDesc = (a: NewsItem, b: NewsItem) => {
+  if (a.publishedAt === null) return 1;
+  if (b.publishedAt === null) return -1;
+  return a.publishedAt < b.publishedAt ? 1 : -1;
+};
+
+export const getAllNews = async (): Promise<NewsItem[]> => {
   const items = (await Promise.all(FEEDS.map(fetchFeed))).flat();
-
-  const sortByDateDesc = (a: NewsItem, b: NewsItem) => {
-    if (a.publishedAt === null) return 1;
-    if (b.publishedAt === null) return -1;
-    return a.publishedAt < b.publishedAt ? 1 : -1;
-  };
-
-  return {
-    'General Tech': items.filter((item) => item.category === 'General Tech').sort(sortByDateDesc),
-    AI: items.filter((item) => item.category === 'AI').sort(sortByDateDesc),
-    'Software Engineering': items.filter((item) => item.category === 'Software Engineering').sort(sortByDateDesc),
-  };
+  return items.sort(sortByDateDesc);
 };

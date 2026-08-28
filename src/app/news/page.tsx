@@ -1,10 +1,12 @@
 import React from 'react';
-import { getNewsByCategory, NewsCategory, NewsItem } from 'src/lib/news';
+import { Playfair_Display, PT_Serif } from 'next/font/google';
+import { getAllNews, NewsItem } from 'src/lib/news';
 import '../../styles/news.css';
 
-export const revalidate = 3600;
+const playfairDisplay = Playfair_Display({ subsets: ['latin'], weight: ['700'] });
+const ptSerif = PT_Serif({ subsets: ['latin'], weight: ['400', '700'] });
 
-const CATEGORIES: NewsCategory[] = ['General Tech', 'AI', 'Software Engineering'];
+export const revalidate = 3600;
 
 const formatDate = (publishedAt: string | null) => {
   if (publishedAt === null) return '';
@@ -13,40 +15,48 @@ const formatDate = (publishedAt: string | null) => {
   return date.toISOString().slice(0, 10).replace(/-/g, '');
 };
 
-const NewsList = ({ items }: { items: NewsItem[] }) => (
-  <ul className="news-list">
-    {items.map((item) => (
-      <li className="news-item" key={item.link}>
-        <a className="news-item__link" href={item.link} target="_blank" rel="noopener noreferrer">
-          <span className="news-item__title">{item.title}</span>
-          <span className="news-item__rule" />
-          <span className="news-item__meta">
-            {item.source}
-            {formatDate(item.publishedAt) && ` · ${formatDate(item.publishedAt)}`}
-          </span>
-        </a>
-      </li>
-    ))}
-  </ul>
+const formatFooterDate = (date: Date) =>
+  date.toLocaleDateString('en-US', {
+    weekday: 'long',
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+  });
+
+const NewsCard = ({ item }: { item: NewsItem }) => (
+  <article className="news-card">
+    <a className="news-card__title" href={item.link} target="_blank" rel="noopener noreferrer">
+      {item.title}
+    </a>
+    <div className="news-card__meta">
+      <span className="news-card__byline">
+        {item.source}
+        {' · '}
+        {item.category}
+      </span>
+      <span className="news-card__date">{formatDate(item.publishedAt)}</span>
+    </div>
+    {item.summary && <p className="news-card__summary">{item.summary}</p>}
+  </article>
 );
 
 const NewsPage = async () => {
-  const newsByCategory = await getNewsByCategory();
+  const items = await getAllNews();
 
   return (
-    <div className="news">
+    <div className={`news ${ptSerif.className}`}>
       <main className="news__inner">
-        {CATEGORIES.map((category) => {
-          const items = newsByCategory[category];
-          if (items.length === 0) return null;
-
-          return (
-            <section className="news-section" key={category}>
-              <h2 className="news-section__heading">{category}</h2>
-              <NewsList items={items} />
-            </section>
-          );
-        })}
+        <header className="news-masthead">
+          <h1 className={`news-masthead__title ${playfairDisplay.className}`}>Dev Dispatch</h1>
+        </header>
+        <div className="news-grid">
+          {items.map((item) => (
+            <NewsCard item={item} key={item.link} />
+          ))}
+        </div>
+        <footer className="news-footer">
+          {formatFooterDate(new Date())} — CURATED BY HARI NARAYANAN
+        </footer>
       </main>
     </div>
   );

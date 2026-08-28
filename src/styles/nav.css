@@ -17,6 +17,10 @@
   gap: 0.75rem;
 }
 
+.nav__inner--wide {
+  max-width: 1200px;
+}
+
 .nav__links {
   display: flex;
   gap: 1.25rem;

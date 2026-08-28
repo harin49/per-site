@@ -16,7 +16,7 @@ const Nav = () => {
 
   return (
     <nav className="nav">
-      <div className="nav__inner">
+      <div className={`nav__inner${pathname === '/news' ? ' nav__inner--wide' : ''}`}>
         <ul className="nav__links">
           {NAV_LINKS.map(({ href, label }) => (
             <li key={href}>
